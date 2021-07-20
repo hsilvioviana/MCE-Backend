@@ -54,3 +54,9 @@ export type userCreator = {
    password: string,
    role: ROLES
 }
+
+export type loginDTO = {
+
+   email: string,
+   password: string
+}
