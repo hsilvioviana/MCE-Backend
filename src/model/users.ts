@@ -87,3 +87,15 @@ export type userAndPasswordEditor = {
    phone: string,
    newPassword: string
 }
+
+export type passwordForgotDTO = {
+   
+   email: string
+}
+
+export type passwordResetCodeCreator = {
+
+   id: string,
+   email: string,
+   code: string
+}

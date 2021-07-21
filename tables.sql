@@ -9,3 +9,11 @@ role ENUM("USER", "PERSONAL") DEFAULT "USER",
 createdAt DATE NOT NULL,
 updatedAt DATE NOT NULL
 );
+
+CREATE TABLE MC_ResetPasswordCodes (
+id VARCHAR(64) PRIMARY KEY,
+code VARCHAR(64) NOT NULL,
+email VARCHAR(64),
+createdAt DATE NOT NULL,
+FOREIGN KEY (email) REFERENCES MC_Users(email)
+);
