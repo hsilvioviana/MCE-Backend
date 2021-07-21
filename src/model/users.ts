@@ -99,3 +99,16 @@ export type passwordResetCodeCreator = {
    email: string,
    code: string
 }
+
+export type passwordResetDTO = {
+
+   email: string,
+   code: string,
+   newPassword: string
+}
+
+export type passwordEditor = {
+
+   id: string,
+   newPassword: string
+}
