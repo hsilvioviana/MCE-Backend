@@ -60,3 +60,30 @@ export type loginDTO = {
    email: string,
    password: string
 }
+
+export type profileEditDTO = {
+
+   token: string,
+   nickname: string,
+   email: string,
+   phone: string,
+   password: string | undefined,
+   newPassword: string | undefined
+}
+
+export type userEditor = {
+
+   id: string,
+   nickname: string,
+   email: string,
+   phone: string
+}
+
+export type userAndPasswordEditor = {
+
+   id: string,
+   nickname: string,
+   email: string,
+   phone: string,
+   newPassword: string
+}
