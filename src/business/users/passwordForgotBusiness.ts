@@ -5,19 +5,17 @@ import { hash } from "../../services/hashManager"
 import { generateId } from "../../services/idGenerator"
 import { resetCode } from "../../services/passwordForgotManager"
 import { transporter } from "../../services/transporter"
+import { passwordForgotSchema } from "../../validations/passwordForgotSchema"
 
 
 export const passwordForgotBusiness  = async (input: passwordForgotDTO) : Promise<void> => {
 
     try {
 
-        if (!input.email) {
+        await passwordForgotSchema.validate(input)
 
-            throw new Error("Você deve fornecer: 'email'")
-        }
-
-        const checkEmail = await getUserByEmail(input.email)
-        if (!checkEmail) {
+        const emailUser = await getUserByEmail(input.email)
+        if (!emailUser) {
 
             throw new Error("Email não encontrado")
         }

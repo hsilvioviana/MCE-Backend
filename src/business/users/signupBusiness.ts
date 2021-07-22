@@ -6,43 +6,31 @@ import { authentication, ROLES, signupDTO, userCreator } from "../../model/users
 import { generateToken } from "../../services/authenticator"
 import { hash } from "../../services/hashManager"
 import { generateId } from "../../services/idGenerator"
+import { signupSchema } from "../../validations/signupSchema"
 
 
 export const signupBusiness = async (input: signupDTO) : Promise<authentication> => {
 
     try {
 
-        if (!input.nickname || !input.email || !input.phone || !input.password || !input.role) {
+        await signupSchema.validate(input)
 
-            throw new Error("Você deve fornecer: 'nickname', 'email', 'phone', 'password' e 'role'")
+        const nicknameUser = await getUserByNickname(input.nickname)
+        if (nicknameUser) {
+
+            throw new Error("Nickname inválido")
         }
 
-        if (input.password.length < 6) {
+        const emailUser = await getUserByEmail(input.email)
+        if (emailUser) {
 
-            throw new Error("O campo 'password' deve ter no mínimo 6 caracteres")
+            throw new Error("Email inválido")
         }
 
-        if (!(input.role in ROLES)) {
+        const phoneUser = await getUserByPhone(input.phone)
+        if (phoneUser) {
 
-            throw new Error("O campo 'role' deve ser: 'USER' ou 'PERSONAL'")
-        }
-
-        const checkNickname = await getUserByNickname(input.nickname)
-        if (checkNickname) {
-
-            throw new Error("'nickname' inválido")
-        }
-
-        const checkEmail = await getUserByEmail(input.email)
-        if (checkEmail) {
-
-            throw new Error("'email' inválido")
-        }
-
-        const checkPhone = await getUserByPhone(input.phone)
-        if (checkPhone) {
-
-            throw new Error("'phone' inválido")
+            throw new Error("Telefone inválido")
         }
 
         const newUser: userCreator = {

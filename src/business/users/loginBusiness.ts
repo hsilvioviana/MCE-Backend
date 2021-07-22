@@ -1,26 +1,24 @@
-import { getUserByEmail } from "../../data/users/getUserByEmail";
-import { authentication, loginDTO } from "../../model/users";
-import { generateToken } from "../../services/authenticator";
-import { compare } from "../../services/hashManager";
+import { getUserByEmail } from "../../data/users/getUserByEmail"
+import { authentication, loginDTO } from "../../model/users"
+import { generateToken } from "../../services/authenticator"
+import { compare } from "../../services/hashManager"
+import { loginSchema } from "../../validations/loginSchema"
 
 
 export const loginBusiness = async (input: loginDTO) : Promise<authentication> => {
 
     try {
 
-        if (!input.email || !input.password) {
+        await loginSchema.validate(input)
 
-            throw new Error("Você deve fornecer: 'email' e 'password'")
-        }
+        const emailUser = await getUserByEmail(input.email)
 
-        const user = await getUserByEmail(input.email)
-
-        if (!user) {
+        if (!emailUser) {
 
             throw new Error("Usuário não encontrado")
         }
 
-        if (!await compare(input.password, user.password)) {
+        if (!await compare(input.password, emailUser.password)) {
 
             throw new Error("Senha inválida")
         }
@@ -28,11 +26,11 @@ export const loginBusiness = async (input: loginDTO) : Promise<authentication> =
         const response: authentication = {
 
             user: {
-                id: user.id,
-                nickname: user.nickname,
-                email: user.email
+                id: emailUser.id,
+                nickname: emailUser.nickname,
+                email: emailUser.email
             },
-            token: generateToken({ id: user.id, role: user.role })
+            token: generateToken({ id: emailUser.id, role: emailUser.role })
         }
 
         return response
