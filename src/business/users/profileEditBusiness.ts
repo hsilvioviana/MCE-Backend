@@ -1,12 +1,13 @@
-import { editUser } from "../../data/users/editUser";
-import { editUserAndPassword } from "../../data/users/editUserAndPassword";
-import { getUserByEmail } from "../../data/users/getUserByEmail";
-import { getUserById } from "../../data/users/getUserById";
-import { getUserByNickname } from "../../data/users/getUserByNickname";
-import { getUserByPhone } from "../../data/users/getUserByPhone";
-import { authentication, profileEditDTO } from "../../model/users";
-import { generateToken, getTokenData } from "../../services/authenticator";
-import { compare, hash } from "../../services/hashManager";
+import { editUser } from "../../data/users/editUser"
+import { editUserAndPassword } from "../../data/users/editUserAndPassword"
+import { getUserByEmail } from "../../data/users/getUserByEmail"
+import { getUserById } from "../../data/users/getUserById"
+import { getUserByNickname } from "../../data/users/getUserByNickname"
+import { getUserByPhone } from "../../data/users/getUserByPhone"
+import { authentication, profileEditDTO } from "../../model/users"
+import { generateToken, getTokenData } from "../../services/authenticator"
+import { compare, hash } from "../../services/hashManager"
+import { profileEditSchema } from "../../validations/profileEditSchema"
 
 
 export const profileEditBusiness = async (input: profileEditDTO) : Promise<authentication> => {
@@ -15,29 +16,26 @@ export const profileEditBusiness = async (input: profileEditDTO) : Promise<authe
 
         const token = getTokenData(input.token)
 
-        if (!input.nickname || !input.email || !input.phone) {
-
-            throw new Error("Você deve fornecer: 'nickname', 'email' e 'phone'")
-        }
+        await profileEditSchema.validate(input)
 
         const user = await getUserById(token.id)
 
-        const checkNickname = await getUserByNickname(input.nickname)
-        if (checkNickname && checkNickname.id !== user.id) {
+        const nicknameUser = await getUserByNickname(input.nickname)
+        if (nicknameUser && nicknameUser.id !== user.id) {
 
-            throw new Error("'nickname' inválido")
+            throw new Error("Apelido inválido")
         }
 
-        const checkEmail = await getUserByEmail(input.email)
-        if (checkEmail && checkEmail.id !== user.id) {
+        const emailUser = await getUserByEmail(input.email)
+        if (emailUser && emailUser.id !== user.id) {
 
-            throw new Error("'email' inválido")
+            throw new Error("Email inválido")
         }
 
-        const checkPhone = await getUserByPhone(input.phone)
-        if (checkPhone && checkPhone.id !== user.id) {
+        const phoneUser = await getUserByPhone(input.phone)
+        if (phoneUser && phoneUser.id !== user.id) {
 
-            throw new Error("'phone' inválido")
+            throw new Error("Telefone inválido")
         }
 
         if (input.newPassword) {
@@ -50,11 +48,6 @@ export const profileEditBusiness = async (input: profileEditDTO) : Promise<authe
             if (!await compare(input.password , user.password)) {
 
                 throw new Error("Senha inválida")
-            }
-
-            if (input.newPassword.length < 6) {
-
-                throw new Error("O campo 'newPassword' deve ter no mínimo 6 caracteres")
             }
 
             await editUserAndPassword({ 

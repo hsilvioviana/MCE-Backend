@@ -5,35 +5,28 @@ import { getUserByEmail } from "../../data/users/getUserByEmail"
 import { authentication, passwordEditor, passwordResetDTO } from "../../model/users"
 import { generateToken } from "../../services/authenticator"
 import { compare, hash } from "../../services/hashManager"
+import { passwordResetSchema } from "../../validations/passwordResetSchema"
 
 
 export const passwordResetBusiness = async (input: passwordResetDTO) : Promise<authentication> => {
 
     try {
 
-        if (!input.email || !input.code || !input.newPassword) {
+        await passwordResetSchema.validate(input)
 
-            throw new Error("Você deve fornecer: 'email', 'code' e 'newPassword'")
-        }
-
-        if (input.newPassword.length < 6) {
-
-            throw new Error("O campo 'newPassword' deve ter no mínimo 6 caracteres")
-        }
-
-        const user = await getUserByEmail(input.email)
-        if (!user) {
+        const emailUser = await getUserByEmail(input.email)
+        if (!emailUser) {
 
             throw new Error("Email não encontrado")
         }
 
-        const checkCode = await getResetCodeByEmail(input.email)
-        if (!checkCode || !await compare(input.code, checkCode.code)) {
+        const resetCode = await getResetCodeByEmail(input.email)
+        if (!resetCode || !await compare(input.code, resetCode.code)) {
 
             throw new Error("Código Inválido")
         }
 
-        const passwordEditor: passwordEditor = { id: user.id, newPassword: await hash(input.newPassword) }
+        const passwordEditor: passwordEditor = { id: emailUser.id, newPassword: await hash(input.newPassword) }
 
         await editPassword(passwordEditor)
 
@@ -42,11 +35,11 @@ export const passwordResetBusiness = async (input: passwordResetDTO) : Promise<a
         const response: authentication = {
 
             user: {
-                id: user.id,
-                nickname: user.nickname,
-                email: user.email
+                id: emailUser.id,
+                nickname: emailUser.nickname,
+                email: emailUser.email
             },
-            token: generateToken({ id: user.id, role: user.role })
+            token: generateToken({ id: emailUser.id, role: emailUser.role })
         }
 
         return response
