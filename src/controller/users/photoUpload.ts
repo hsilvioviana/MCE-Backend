@@ -1,0 +1,50 @@
+import { Request, Response } from "express"
+import { photoUploadBusiness } from "../../business/users/photoUploadBusiness"
+import { photoUploadDTO } from "../../model/users"
+import multer from "multer"
+import path from "path"
+import { generateId } from "../../services/idGenerator"
+
+
+export const photoUpload = async (req: Request, res: Response) : Promise<void> => {
+
+    try {
+
+        const token = req.headers.authorization as string 
+
+        const newAvatarId = generateId()
+
+        const input: photoUploadDTO = { token, newAvatarId }
+
+        await photoUploadBusiness(input)
+
+        const storage = multer.diskStorage({
+
+            destination: (req, file, cb) => {
+
+                const acceptedExtensions = [".jpg", ".jpeg", ".png"]
+
+                const extension = path.extname(file.originalname)
+
+                if (acceptedExtensions.includes(extension)) {
+
+                    cb(null, "./src/uploads/users")
+                }
+            },
+            filename: (req, file, cb) => {
+                
+                cb(null, newAvatarId + path.extname(file.originalname))
+            }
+        })
+        
+        const upload = multer({ storage })
+
+        upload.single("image")(req, res, () => {})
+
+        res.status(200).send({ message: "Foto atualizada com sucesso" })
+    }
+    catch (error) {
+
+        res.status(400).send({ error: error.message })
+    }
+}
