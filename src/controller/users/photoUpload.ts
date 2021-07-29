@@ -12,7 +12,7 @@ export const photoUpload = async (req: Request, res: Response) : Promise<void> =
 
         const token = req.headers.authorization as string 
 
-        const newAvatarId = generateId()
+        const newAvatarId = generateId() + ".jpg"
 
         const input: photoUploadDTO = { token, newAvatarId }
 
@@ -33,7 +33,7 @@ export const photoUpload = async (req: Request, res: Response) : Promise<void> =
             },
             filename: (req, file, cb) => {
                 
-                cb(null, newAvatarId + path.extname(file.originalname))
+                cb(null, newAvatarId)
             }
         })
         
