@@ -1,4 +1,4 @@
-import { userEditor } from "../../model/users"
+import { userEditor } from "../../model/users/profileEditModels"
 import { connection } from "../connection"
 
 

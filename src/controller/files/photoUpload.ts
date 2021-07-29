@@ -1,9 +1,9 @@
 import { Request, Response } from "express"
-import { photoUploadBusiness } from "../../business/users/photoUploadBusiness"
-import { photoUploadDTO } from "../../model/users"
+import { photoUploadBusiness } from "../../business/files/photoUploadBusiness"
 import multer from "multer"
 import path from "path"
 import { generateId } from "../../services/idGenerator"
+import { photoUploadDTO } from "../../model/files/photoUpload"
 
 
 export const photoUpload = async (req: Request, res: Response) : Promise<void> => {
@@ -28,7 +28,7 @@ export const photoUpload = async (req: Request, res: Response) : Promise<void> =
 
                 if (acceptedExtensions.includes(extension)) {
 
-                    cb(null, "./src/uploads/users")
+                    cb(null, "./src/uploads/")
                 }
             },
             filename: (req, file, cb) => {

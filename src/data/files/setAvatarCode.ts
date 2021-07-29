@@ -1,4 +1,4 @@
-import { avatarIdEditor } from "../../model/users"
+import { avatarIdEditor } from "../../model/files/photoUpload"
 import { connection } from "../connection"
 
 

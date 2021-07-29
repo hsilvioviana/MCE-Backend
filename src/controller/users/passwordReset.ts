@@ -1,6 +1,7 @@
 import { Request, Response } from "express"
 import { passwordResetBusiness } from "../../business/users/passwordResetBusiness"
-import { authentication, passwordResetDTO } from "../../model/users"
+import { authentication } from "../../model/users/globalModels"
+import { passwordResetDTO } from "../../model/users/passwordReset"
 
 
 export const passwordReset = async (req: Request, res: Response) : Promise<void> => {

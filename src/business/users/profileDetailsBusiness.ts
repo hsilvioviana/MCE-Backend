@@ -1,5 +1,5 @@
 import { getUserById } from "../../data/users/getUserById"
-import { profileDTO, profile } from "../../model/users"
+import { profile, profileDTO } from "../../model/users/profileModels"
 import { getTokenData } from "../../services/authenticator"
 
 
@@ -20,7 +20,7 @@ export const profileDetailsBusiness = async (input: profileDTO) : Promise<profil
 
             id: user.id,
             nickname: user.nickname,
-            avatar: "http://localhost:3003/users/photo/download/" + user.avatar,
+            avatar: "http://localhost:3003/files/photo/download/" + user.avatar,
             email: user.email,
             phone: user.phone
         }

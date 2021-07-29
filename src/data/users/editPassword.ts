@@ -1,4 +1,4 @@
-import { passwordEditor } from "../../model/users"
+import { passwordEditor } from "../../model/users/passwordReset"
 import { connection } from "../connection"
 
 

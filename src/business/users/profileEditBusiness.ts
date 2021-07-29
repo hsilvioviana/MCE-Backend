@@ -4,10 +4,11 @@ import { getUserByEmail } from "../../data/users/getUserByEmail"
 import { getUserById } from "../../data/users/getUserById"
 import { getUserByNickname } from "../../data/users/getUserByNickname"
 import { getUserByPhone } from "../../data/users/getUserByPhone"
-import { authentication, profileEditDTO } from "../../model/users"
+import { authentication } from "../../model/users/globalModels"
+import { profileEditDTO } from "../../model/users/loginModels"
 import { generateToken, getTokenData } from "../../services/authenticator"
 import { compare, hash } from "../../services/hashManager"
-import { profileEditSchema } from "../../validations/profileEditSchema"
+import { profileEditSchema } from "../../validations/users/profileEditSchema"
 
 
 export const profileEditBusiness = async (input: profileEditDTO) : Promise<authentication> => {

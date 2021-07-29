@@ -1,6 +1,6 @@
 import { Request, Response } from "express"
 import { passwordForgotBusiness } from "../../business/users/passwordForgotBusiness"
-import { passwordForgotDTO } from "../../model/users"
+import { passwordForgotDTO } from "../../model/users/passwordForgotModels"
 
 
 export const passwordForgot = async (req: Request, res: Response) : Promise<void> => {

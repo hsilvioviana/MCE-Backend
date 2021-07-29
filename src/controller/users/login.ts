@@ -1,6 +1,7 @@
 import { Response, Request } from "express"
 import { loginBusiness } from "../../business/users/loginBusiness"
-import { authentication, loginDTO } from "../../model/users"
+import { authentication } from "../../model/users/globalModels"
+import { loginDTO } from "../../model/users/loginModels"
 
 
 export const login = async(req: Request, res: Response) : Promise<void> => {

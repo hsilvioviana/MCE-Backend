@@ -1,11 +1,11 @@
 import { createResetCode } from "../../data/users/createResetCode"
 import { getUserByEmail } from "../../data/users/getUserByEmail"
-import { passwordForgotDTO, passwordResetCodeCreator } from "../../model/users"
+import { passwordForgotDTO, passwordResetCodeCreator } from "../../model/users/passwordForgotModels"
 import { hash } from "../../services/hashManager"
 import { generateId } from "../../services/idGenerator"
 import { resetCode } from "../../services/passwordForgotManager"
 import { transporter } from "../../services/transporter"
-import { passwordForgotSchema } from "../../validations/passwordForgotSchema"
+import { passwordForgotSchema } from "../../validations/users/passwordForgotSchema"
 
 
 export const passwordForgotBusiness  = async (input: passwordForgotDTO) : Promise<void> => {
