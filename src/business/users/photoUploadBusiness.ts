@@ -26,7 +26,7 @@ export const photoUploadBusiness = async (input: photoUploadDTO) : Promise<void>
 
             files.forEach(file => {
 
-                if(file.split('.')[0] == oldAvatarId) {
+                if(file == oldAvatarId) {
 
                     fs.unlink( directory + file ,(err) => {})
                 }    
