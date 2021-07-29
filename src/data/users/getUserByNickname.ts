@@ -1,4 +1,4 @@
-import { user } from "../../model/users"
+import { user } from "../../model/users/globalModels"
 import { connection } from "../connection"
 
 

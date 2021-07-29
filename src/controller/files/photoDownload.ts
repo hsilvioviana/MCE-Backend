@@ -8,7 +8,7 @@ export const photoDownload = async (req: Request, res: Response) : Promise<void>
 
         const avatarFile = req.params.file
 
-        res.status(200).sendFile(path.resolve('src', 'uploads', 'users', avatarFile))
+        res.status(200).sendFile(path.resolve('src', 'uploads', avatarFile))
     }
     catch (error) {
 

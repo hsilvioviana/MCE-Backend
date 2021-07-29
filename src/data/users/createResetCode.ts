@@ -1,4 +1,4 @@
-import { passwordResetCodeCreator } from "../../model/users"
+import { passwordResetCodeCreator } from "../../model/users/passwordForgotModels"
 import { connection } from "../connection"
 
 

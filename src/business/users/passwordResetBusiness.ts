@@ -2,10 +2,11 @@ import { deleteResetCode } from "../../data/users/deleteResetCode"
 import { editPassword } from "../../data/users/editPassword"
 import { getResetCodeByEmail } from "../../data/users/getResetCodeByEmail"
 import { getUserByEmail } from "../../data/users/getUserByEmail"
-import { authentication, passwordEditor, passwordResetDTO } from "../../model/users"
+import { authentication } from "../../model/users/globalModels"
+import { passwordEditor, passwordResetDTO } from "../../model/users/passwordReset"
 import { generateToken } from "../../services/authenticator"
 import { compare, hash } from "../../services/hashManager"
-import { passwordResetSchema } from "../../validations/passwordResetSchema"
+import { passwordResetSchema } from "../../validations/users/passwordResetSchema"
 
 
 export const passwordResetBusiness = async (input: passwordResetDTO) : Promise<authentication> => {

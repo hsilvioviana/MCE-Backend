@@ -1,6 +1,7 @@
 import { Request, Response } from "express"
 import { profileEditBusiness } from "../../business/users/profileEditBusiness"
-import { authentication, profileEditDTO } from "../../model/users"
+import { authentication } from "../../model/users/globalModels"
+import { profileEditDTO } from "../../model/users/loginModels"
 
 
 export const profileEdit = async (req: Request, res: Response) : Promise<void> => {

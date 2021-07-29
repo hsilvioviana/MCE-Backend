@@ -1,8 +1,8 @@
-import { avatarIdEditor, photoUploadDTO } from "../../model/users"
 import { getTokenData } from "../../services/authenticator"
 import fs from "fs"
 import { getUserById } from "../../data/users/getUserById"
-import { setAvatarCode } from "../../data/users/setAvatarCode"
+import { setAvatarCode } from "../../data/files/setAvatarCode"
+import { avatarIdEditor, photoUploadDTO } from "../../model/files/photoUpload"
 
 
 export const photoUploadBusiness = async (input: photoUploadDTO) : Promise<void> => {
@@ -20,7 +20,7 @@ export const photoUploadBusiness = async (input: photoUploadDTO) : Promise<void>
 
         const oldAvatarId = user.avatar
 
-        const directory = "./src/uploads/users/"
+        const directory = "./src/uploads/"
 
         fs.readdir(directory, (err, files) => {
 

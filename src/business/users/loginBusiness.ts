@@ -1,8 +1,9 @@
 import { getUserByEmail } from "../../data/users/getUserByEmail"
-import { authentication, loginDTO } from "../../model/users"
+import { authentication } from "../../model/users/globalModels"
+import { loginDTO } from "../../model/users/loginModels"
 import { generateToken } from "../../services/authenticator"
 import { compare } from "../../services/hashManager"
-import { loginSchema } from "../../validations/loginSchema"
+import { loginSchema } from "../../validations/users/loginSchema"
 
 
 export const loginBusiness = async (input: loginDTO) : Promise<authentication> => {

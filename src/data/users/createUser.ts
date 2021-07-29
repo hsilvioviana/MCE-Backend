@@ -1,4 +1,4 @@
-import { userCreator } from "../../model/users"
+import { userCreator } from "../../model/users/signupModels"
 import { connection } from "../connection"
 
 

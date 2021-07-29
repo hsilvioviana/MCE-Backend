@@ -2,11 +2,12 @@ import { createUser } from "../../data/users/createUser"
 import { getUserByEmail } from "../../data/users/getUserByEmail"
 import { getUserByNickname } from "../../data/users/getUserByNickname"
 import { getUserByPhone } from "../../data/users/getUserByPhone"
-import { authentication, ROLES, signupDTO, userCreator } from "../../model/users"
+import { authentication } from "../../model/users/globalModels"
+import { signupDTO, userCreator } from "../../model/users/signupModels"
 import { generateToken } from "../../services/authenticator"
 import { hash } from "../../services/hashManager"
 import { generateId } from "../../services/idGenerator"
-import { signupSchema } from "../../validations/signupSchema"
+import { signupSchema } from "../../validations/users/signupSchema"
 
 
 export const signupBusiness = async (input: signupDTO) : Promise<authentication> => {
