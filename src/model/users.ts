@@ -14,7 +14,7 @@ export type user = {
 
    id: string,
    nickname: string,
-   avatar: string | undefined,
+   avatar: string,
    email: string,
    phone: string,
    password: string,
@@ -123,4 +123,18 @@ export type avatarIdEditor = {
 
    userId: string,
    newAvatarId: string
+}
+
+export type profileDTO = {
+
+   token: string
+}
+
+export type profile = {
+
+   id: string,
+   nickname: string,
+   avatar: string,
+   email: string,
+   phone: string
 }
