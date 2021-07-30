@@ -1,8 +1,8 @@
-import { appointment } from "../../model/appointments/globalModels"
+import { providerAppointment } from "../../model/appointments/globalModels"
 import { connection } from "../connection"
 
 
-export const getAppointmentsByProviderId = async (id: string) : Promise<appointment[]> => {
+export const getAppointmentsByProviderId = async (id: string) : Promise<providerAppointment[]> => {
 
     const result = await connection.raw(`SELECT a.id, a.date, a.canceledDate, u.id AS userId,
     u.nickname as userNickname, u.avatar as userAvatar
