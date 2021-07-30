@@ -17,3 +17,13 @@ email VARCHAR(64),
 createdAt DATE NOT NULL,
 FOREIGN KEY (email) REFERENCES MC_Users(email)
 );
+
+CREATE TABLE MC_Appointments (
+id VARCHAR(64) PRIMARY KEY,
+date VARCHAR(64) NOT NULL,
+canceledDate VARCHAR(64),
+userId VARCHAR(64),
+providerId VARCHAR(64),
+FOREIGN KEY (userId) REFERENCES MC_Users(id),
+FOREIGN KEY (providerId) REFERENCES MC_Users(id)
+);
