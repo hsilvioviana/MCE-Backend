@@ -1,6 +1,7 @@
 import { Request, Response } from "express"
 import { appointmentsBusiness } from "../../business/appointments/appointmentsBusiness"
 import { appointmentsDTO } from "../../model/appointments/appointmentsModels"
+import { providerAppointmentDetails, userAppointmentDetails } from "../../model/appointments/globalModels"
 
 
 export const appointments = async (req: Request, res: Response) : Promise<void> => {
@@ -11,7 +12,7 @@ export const appointments = async (req: Request, res: Response) : Promise<void> 
 
         const input: appointmentsDTO = { token }
 
-        const appointments = await appointmentsBusiness(input)
+        const appointments: userAppointmentDetails[] | providerAppointmentDetails[] = await appointmentsBusiness(input)
 
         res.status(200).send({ appointments })
     }

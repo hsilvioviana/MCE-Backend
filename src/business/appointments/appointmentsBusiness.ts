@@ -5,9 +5,10 @@ import { appointmentsDTO } from "../../model/appointments/appointmentsModels"
 import { ROLES } from "../../model/users/globalModels"
 import { getTokenData } from "../../services/authenticator"
 import { parseISO, subHours, isPast } from "date-fns"
+import { providerAppointmentDetails, userAppointmentDetails } from "../../model/appointments/globalModels"
 
 
-export const appointmentsBusiness = async (input: appointmentsDTO) : Promise<any> => {
+export const appointmentsBusiness = async (input: appointmentsDTO) : Promise<userAppointmentDetails[] | providerAppointmentDetails[]> => {
 
     try {
 
