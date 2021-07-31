@@ -1,3 +1,12 @@
+export type appointment = {
+
+    id: string,
+    date: string,
+    canceledDate: string | null,
+    userId: string,
+    providerId: string
+}
+
 export type userAppointment = {
 
     id: string,
