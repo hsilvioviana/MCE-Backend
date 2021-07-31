@@ -1,6 +1,6 @@
 import { Request, Response } from "express"
 import { cancelAppointmentBusiness } from "../../business/appointments/cancelAppointmentBusiness"
-import { cancelAppointmentDTO } from "../../model/appointments/cancelAppointment"
+import { cancelAppointmentDTO } from "../../model/appointments/cancelAppointmentModels"
 
 
 export const cancelAppointment = async (req: Request, res: Response) : Promise<void> => {
