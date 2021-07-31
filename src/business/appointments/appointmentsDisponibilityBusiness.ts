@@ -1,5 +1,5 @@
 import { getUserById } from "../../data/users/getUserById"
-import { appointmentsDisponibilityDTO } from "../../model/appointments/appointmentsDisponibilityModels"
+import { appointmentsDisponibilityDTO, timeDisponibility } from "../../model/appointments/appointmentsDisponibilityModels"
 import { ROLES } from "../../model/users/globalModels"
 import { getTokenData } from "../../services/authenticator"
 import { appointmentsDisponibilitySchema } from "../../validations/appointments/appointmentsDisponibilitySchema"
@@ -7,7 +7,7 @@ import { parseISO, startOfDay, endOfDay, isValid, isPast } from "date-fns"
 import { getAppointmentsByProviderId } from "../../data/appointments/getAppointmentsByProviderId"
 
 
-export const appointmentsDisponibilityBusiness = async (input: appointmentsDisponibilityDTO) : Promise<any> => {
+export const appointmentsDisponibilityBusiness = async (input: appointmentsDisponibilityDTO) : Promise<timeDisponibility[]> => {
 
     try {
 
