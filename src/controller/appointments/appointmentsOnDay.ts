@@ -1,6 +1,6 @@
 import { Request, Response } from "express"
 import { appointmentsOnDayBusiness } from "../../business/appointments/appointmentsOnDayBusiness"
-import { appointmentsOnDayDTO } from "../../model/appointments/appointmestOnDayModels"
+import { appointmentsOnDayDTO } from "../../model/appointments/appointmentsOnDayModels"
 import { providerAppointmentDetails, userAppointmentDetails } from "../../model/appointments/globalModels"
 
 

@@ -42,7 +42,7 @@ export const makeAppointmentBusiness = async (input: makeAppointmentsDTO) : Prom
             throw new Error("Você não pode agendar um horário que já passou")
         }
 
-        const acceptedHours = [8, 9, 10, 11, 13, 14, 15, 16, 17, 18, 19]
+        const acceptedHours = String(process.env.ACCEPTED_HOURS).split(" ").map(hour => Number(hour))
 
         if (!acceptedHours.includes(time.getHours())) {
 

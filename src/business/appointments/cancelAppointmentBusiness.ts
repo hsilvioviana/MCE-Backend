@@ -1,6 +1,6 @@
 import { getAppointmentById } from "../../data/appointments/getAppointmentById"
 import { getUserById } from "../../data/users/getUserById"
-import { appointmentCancelator, cancelAppointmentDTO } from "../../model/appointments/cancelAppointment"
+import { appointmentCancelator, cancelAppointmentDTO } from "../../model/appointments/cancelAppointmentModels"
 import { getTokenData } from "../../services/authenticator"
 import { parseISO, subHours, isBefore, format, } from "date-fns"
 import { cancelAppointment } from "../../data/appointments/cancelAppointment"

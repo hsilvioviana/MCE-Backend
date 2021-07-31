@@ -4,7 +4,7 @@ import { getUserById } from "../../data/users/getUserById"
 import { ROLES } from "../../model/users/globalModels"
 import { getTokenData } from "../../services/authenticator"
 import { parseISO, subHours, isPast, startOfDay, endOfDay, isValid } from "date-fns"
-import { appointmentsOnDayDTO } from "../../model/appointments/appointmestOnDayModels"
+import { appointmentsOnDayDTO } from "../../model/appointments/appointmentsOnDayModels"
 import { appointmentsOnDaySchema } from "../../validations/appointments/appointmentsOnDaySchema"
 import { providerAppointmentDetails, userAppointmentDetails } from "../../model/appointments/globalModels"
 
@@ -39,7 +39,7 @@ export const appointmentsOnDayBusiness = async (input: appointmentsOnDayDTO) : P
 
             const result: any = []
 
-            appointments.map(appointment => {
+            appointments.forEach(appointment => {
 
                 const time = parseISO(appointment.date)
     
@@ -67,7 +67,7 @@ export const appointmentsOnDayBusiness = async (input: appointmentsOnDayDTO) : P
 
             const result: any = []
 
-            appointments.map(appointment => {
+            appointments.forEach(appointment => {
 
                 const time = parseISO(appointment.date)
     

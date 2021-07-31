@@ -1,4 +1,4 @@
-import { appointmentCancelator } from "../../model/appointments/cancelAppointment"
+import { appointmentCancelator } from "../../model/appointments/cancelAppointmentModels"
 import { connection } from "../connection"
 
 
