@@ -3,10 +3,14 @@ import { appointmentCreator, makeAppointmentsDTO } from "../../model/appointment
 import { ROLES } from "../../model/users/globalModels"
 import { getTokenData } from "../../services/authenticator"
 import { makeAppointmentSchema } from "../../validations/appointments/makeAppointmentSchema"
-import { parseISO, isFuture, isValid } from "date-fns"
+import { parseISO, isFuture, isValid, subHours, format } from "date-fns"
 import { generateId } from "../../services/idGenerator"
 import { createAppointment } from "../../data/appointments/createAppointment"
 import { getAppointmentsByProviderId } from "../../data/appointments/getAppointmentsByProviderId"
+import { notification } from "../../model/notifications/globalModels"
+import { createNotification } from "../../data/notifications/createNotification"
+import { pt } from "date-fns/locale"
+
 
 export const makeAppointmentBusiness = async (input: makeAppointmentsDTO) : Promise<void> => {
 
@@ -67,7 +71,23 @@ export const makeAppointmentBusiness = async (input: makeAppointmentsDTO) : Prom
             providerId: provider.id
         }
 
-        await createAppointment(newAppointment)   
+        await createAppointment(newAppointment)
+
+        const createdAt = subHours(new Date(), 3).toISOString().substring(0, 19) + "-03:00"
+
+        const content = `Novo agendamento de ${user.nickname} ` + 
+        format(new Date(input.date), "'dia' dd 'de' MMMM 'as' H:mm:ss", {locale: pt})
+        
+        const notification: notification = {
+
+            id: generateId(),
+            viewed: false,
+            content,
+            receiverId: provider.id,
+            createdAt
+        }
+
+        await createNotification(notification)
     }
     catch (error) {
 

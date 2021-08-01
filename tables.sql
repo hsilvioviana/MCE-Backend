@@ -27,3 +27,12 @@ providerId VARCHAR(64),
 FOREIGN KEY (userId) REFERENCES MC_Users(id),
 FOREIGN KEY (providerId) REFERENCES MC_Users(id)
 );
+
+CREATE TABLE MC_Notifications (
+id VARCHAR(64) PRIMARY KEY,
+viewed BOOLEAN NOT NULL,
+content VARCHAR(255),
+receiverId VARCHAR(64),
+createdAt VARCHAR(64),
+FOREIGN KEY (receiverId) REFERENCES MC_Users(id)
+);
