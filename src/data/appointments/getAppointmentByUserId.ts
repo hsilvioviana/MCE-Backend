@@ -2,12 +2,12 @@ import { userAppointment } from "../../model/appointments/globalModels"
 import { connection } from "../connection"
 
 
-export const getAppointmentsByUserId = async (id: string) : Promise<userAppointment[]> => {
+export const getAppointmentsByUserId = async (userId: string) : Promise<userAppointment[]> => {
 
     const result = await connection.raw(`SELECT a.id, a.date, a.canceledDate, u.id AS providerId,
     u.nickname as providerNickname, u.avatar as providerAvatar
     FROM MC_Appointments a JOIN MC_Users u ON a.providerId = u.id
-    WHERE userId = "${id}"`)
+    WHERE userId = "${userId}"`)
 
     return result[0]
 }
