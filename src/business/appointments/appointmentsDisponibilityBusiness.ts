@@ -5,6 +5,8 @@ import { getTokenData } from "../../services/authenticator"
 import { appointmentsDisponibilitySchema } from "../../validations/appointments/appointmentsDisponibilitySchema"
 import { parseISO, startOfDay, endOfDay, isValid, isPast } from "date-fns"
 import { getAppointmentsByProviderId } from "../../data/appointments/getAppointmentsByProviderId"
+import { getScheduleByProviderId } from "../../data/appointments/getScheduleByProviderId"
+import { scheduleOfTheDay } from "../../services/handleSchedule"
 
 
 export const appointmentsDisponibilityBusiness = async (input: appointmentsDisponibilityDTO) : Promise<timeDisponibility[]> => {
@@ -46,13 +48,22 @@ export const appointmentsDisponibilityBusiness = async (input: appointmentsDispo
 
             const time = parseISO(appointment.date)
             
-            if (time > start && time < end && !appointment.canceledDate) {
+            if (time >= start && time <= end && !appointment.canceledDate) {
 
                 appointmentsInTheDay.push(appointment.date)
             }
         })
 
-        const acceptedHours = String(process.env.ACCEPTED_HOURS).split(" ")
+        const schedule = await getScheduleByProviderId(provider.id)
+
+        const hours = scheduleOfTheDay(schedule, parseISO(input.day))
+
+        if (!hours) { 
+            
+            return [] 
+        }
+
+        const acceptedHours = hours.split(" ").map(hour => Number(hour))
 
         const disponibility = acceptedHours.map(hour => {
 
