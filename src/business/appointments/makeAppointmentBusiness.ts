@@ -10,6 +10,8 @@ import { getAppointmentsByProviderId } from "../../data/appointments/getAppointm
 import { notification } from "../../model/notifications/globalModels"
 import { createNotification } from "../../data/notifications/createNotification"
 import { pt } from "date-fns/locale"
+import { getScheduleByProviderId } from "../../data/appointments/getScheduleByProviderId"
+import { scheduleOfTheDay } from "../../services/handleSchedule"
 
 
 export const makeAppointmentBusiness = async (input: makeAppointmentsDTO) : Promise<void> => {
@@ -46,7 +48,11 @@ export const makeAppointmentBusiness = async (input: makeAppointmentsDTO) : Prom
             throw new Error("Você não pode agendar um horário que já passou")
         }
 
-        const acceptedHours = String(process.env.ACCEPTED_HOURS).split(" ").map(hour => Number(hour))
+        const schedule = await getScheduleByProviderId(provider.id)
+
+        const hours = scheduleOfTheDay(schedule, time)
+
+        const acceptedHours = hours.split(" ").map(hour => Number(hour))
 
         if (!acceptedHours.includes(time.getHours())) {
 

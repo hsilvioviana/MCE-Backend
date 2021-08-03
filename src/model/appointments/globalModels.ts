@@ -51,3 +51,15 @@ export type providerAppointmentDetails = {
     date: string,
     user: appointmentPersonDetails
 }
+
+export type schedule = {
+
+    providerId: string,
+    sunday: string,
+    monday: string,
+    tuesday: string,
+    wednesday: string,
+    thursday: string,
+    friday: string,
+    saturday: string
+}

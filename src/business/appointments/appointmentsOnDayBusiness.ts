@@ -43,7 +43,7 @@ export const appointmentsOnDayBusiness = async (input: appointmentsOnDayDTO) : P
 
                 const time = parseISO(appointment.date)
     
-                if (time > start && time < end && !appointment.canceledDate) {
+                if (time >= start && time <= end && !appointment.canceledDate) {
 
                     result.push({
                         past: isPast(time),
@@ -71,7 +71,7 @@ export const appointmentsOnDayBusiness = async (input: appointmentsOnDayDTO) : P
 
                 const time = parseISO(appointment.date)
     
-                if (time > start && time < end && !appointment.canceledDate) {
+                if (time >= start && time <= end && !appointment.canceledDate) {
 
                     result.push({
                         past: isPast(time),

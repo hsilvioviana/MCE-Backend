@@ -36,3 +36,16 @@ receiverId VARCHAR(64),
 createdAt VARCHAR(64),
 FOREIGN KEY (receiverId) REFERENCES MC_Users(id)
 );
+
+CREATE TABLE MC_Schedules (
+providerId VARCHAR(64) PRIMARY KEY,
+sunday VARCHAR(64),
+monday VARCHAR(64),
+tuesday VARCHAR(64),
+wednesday VARCHAR(64),
+thursday VARCHAR(64),
+friday VARCHAR(64),
+saturday VARCHAR(64),
+updatedAt DATE NOT NULL,
+FOREIGN KEY (providerId) REFERENCES MC_Users(id)
+);
