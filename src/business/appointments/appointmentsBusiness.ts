@@ -25,43 +25,57 @@ export const appointmentsBusiness = async (input: appointmentsDTO) : Promise<use
 
             const appointments = await getAppointmentsByUserId(token.id)
 
-            return appointments.map(appointment => {
+            const result: userAppointmentDetails[] = []
+
+            appointments.forEach(appointment => {
 
                 const time = parseISO(appointment.date)
     
-                return {
-                    past: isPast(time),
-                    cancelable: !isPast(subHours(time, 6)),
-                    id: appointment.id,
-                    date: appointment.date,
-                    provider: {
-                        id: appointment.providerId,
-                        nickname: appointment.providerNickname,
-                        avatar: appointment.providerAvatar ? String(process.env.URL) + appointment.providerAvatar : ""
-                    }
+                if (!appointment.canceledDate) {
+                    
+                    result.push({
+                        past: isPast(time),
+                        cancelable: !isPast(subHours(time, 6)),
+                        id: appointment.id,
+                        date: appointment.date,
+                        provider: {
+                            id: appointment.providerId,
+                            nickname: appointment.providerNickname,
+                            avatar: appointment.providerAvatar ? String(process.env.URL) + appointment.providerAvatar : ""
+                        }
+                    })
                 }
             })
+
+            return result
         }
         else {
 
             const appointments = await getAppointmentsByProviderId(token.id)
 
-            return appointments.map(appointment => {
+            const result: providerAppointmentDetails[] = []
+
+            appointments.forEach(appointment => {
 
                 const time = parseISO(appointment.date)
     
-                return {
-                    past: isPast(time),
-                    cancelable: !isPast(subHours(time, 6)),
-                    id: appointment.id,
-                    date: appointment.date,
-                    user: {
-                        id: appointment.userId,
-                        nickname: appointment.userNickname,
-                        avatar: appointment.userAvatar ? String(process.env.URL) + appointment.userAvatar : ""
-                    }
+                if (!appointment.canceledDate) {
+
+                    result.push({
+                        past: isPast(time),
+                        cancelable: !isPast(subHours(time, 6)),
+                        id: appointment.id,
+                        date: appointment.date,
+                        user: {
+                            id: appointment.userId,
+                            nickname: appointment.userNickname,
+                            avatar: appointment.userAvatar ? String(process.env.URL) + appointment.userAvatar : ""
+                        }
+                    })
                 }
             })
+
+            return result
         }
     }
     catch (error) {
