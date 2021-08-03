@@ -3,7 +3,7 @@ import { appointmentsDisponibilityDTO, timeDisponibility } from "../../model/app
 import { ROLES } from "../../model/users/globalModels"
 import { getTokenData } from "../../services/authenticator"
 import { appointmentsDisponibilitySchema } from "../../validations/appointments/appointmentsDisponibilitySchema"
-import { parseISO, startOfDay, endOfDay, isValid, isPast } from "date-fns"
+import { parseISO, startOfDay, endOfDay, isValid, isPast, isBefore, subHours, subMonths } from "date-fns"
 import { getAppointmentsByProviderId } from "../../data/appointments/getAppointmentsByProviderId"
 import { getScheduleByProviderId } from "../../data/appointments/getScheduleByProviderId"
 import { scheduleOfTheDay } from "../../services/handleSchedule"
@@ -34,6 +34,11 @@ export const appointmentsDisponibilityBusiness = async (input: appointmentsDispo
         if (!isValid(parseISO(input.day))) {
 
             throw new Error("Data inválida")
+        }
+
+        if (!isBefore(subMonths(parseISO(input.day), 2), new Date())) {
+
+            return []
         }
 
         const start = startOfDay(parseISO(input.day))
@@ -72,7 +77,7 @@ export const appointmentsDisponibilityBusiness = async (input: appointmentsDispo
             return {
                 time: `${hour}:00`,
                 value,
-                available: !(appointmentsInTheDay.includes(value) || isPast(parseISO(value)))
+                available: !(appointmentsInTheDay.includes(value) || isPast(parseISO(value)) || isBefore(subHours(parseISO(value), 2), new Date()))
             }
         })
         
