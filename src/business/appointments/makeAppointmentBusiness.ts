@@ -3,7 +3,7 @@ import { appointmentCreator, makeAppointmentsDTO } from "../../model/appointment
 import { ROLES } from "../../model/users/globalModels"
 import { getTokenData } from "../../services/authenticator"
 import { makeAppointmentSchema } from "../../validations/appointments/makeAppointmentSchema"
-import { parseISO, isFuture, isValid, subHours, format } from "date-fns"
+import { parseISO, isFuture, isValid, subHours, format, isBefore, subMonths } from "date-fns"
 import { generateId } from "../../services/idGenerator"
 import { createAppointment } from "../../data/appointments/createAppointment"
 import { getAppointmentsByProviderId } from "../../data/appointments/getAppointmentsByProviderId"
@@ -46,6 +46,16 @@ export const makeAppointmentBusiness = async (input: makeAppointmentsDTO) : Prom
         if(!isFuture(time)) {
 
             throw new Error("Você não pode agendar um horário que já passou")
+        }
+
+        if (isBefore(subHours(time, 2), new Date())) {
+
+            throw new Error("Você não pode agendar uma aula com menos de 2 horas de antecedência")
+        }
+
+        if (isBefore(subMonths(time, 2), new Date())) {
+
+            throw new Error("Você não pode agendar uma aula com mais de 2 meses de antecedência")
         }
 
         const schedule = await getScheduleByProviderId(provider.id)
