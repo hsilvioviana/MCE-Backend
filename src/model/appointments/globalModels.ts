@@ -63,3 +63,11 @@ export type schedule = {
     friday: string,
     saturday: string
 }
+
+export type dayOff = {
+
+    id: string,
+    start: string,
+    end: string,
+    providerId: string
+}
