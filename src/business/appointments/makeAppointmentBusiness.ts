@@ -12,6 +12,7 @@ import { createNotification } from "../../data/notifications/createNotification"
 import { pt } from "date-fns/locale"
 import { getScheduleByProviderId } from "../../data/appointments/getScheduleByProviderId"
 import { scheduleOfTheDay } from "../../services/handleSchedule"
+import { getDaysOffByProviderId } from "../../data/appointments/getDaysOffByProviderId"
 
 
 export const makeAppointmentBusiness = async (input: makeAppointmentsDTO) : Promise<void> => {
@@ -38,7 +39,9 @@ export const makeAppointmentBusiness = async (input: makeAppointmentsDTO) : Prom
 
         const time = parseISO(input.date)
 
-        if (!isValid(time) || time.getMinutes() !== 0 || time.getSeconds() !== 0) {
+        const hour = input.date.substring(11, 13)
+
+        if (!isValid(time) || time.getMinutes() !== 0 || time.getSeconds() !== 0 || hour === "24") {
 
             throw new Error("Data inválida")
         }
@@ -70,6 +73,20 @@ export const makeAppointmentBusiness = async (input: makeAppointmentsDTO) : Prom
         const hours = scheduleOfTheDay(schedule, time)
 
         const acceptedHours = hours.split(" ").map(hour => Number(hour))
+
+        const daysOff = await getDaysOffByProviderId(provider.id)
+
+        for (let dayOff of daysOff) {
+
+            const dayOffStart = parseISO(dayOff.start)
+
+            const dayOffEnd = parseISO(dayOff.end)
+
+            if (dayOffStart <= time && dayOffEnd >= time) {
+
+                throw new Error("Horário Indisponível")
+            }
+        }
 
         if (!acceptedHours.includes(time.getHours())) {
 

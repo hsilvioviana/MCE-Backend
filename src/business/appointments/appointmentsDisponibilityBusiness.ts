@@ -7,6 +7,7 @@ import { parseISO, startOfDay, endOfDay, isValid, isPast, isBefore, subHours, su
 import { getAppointmentsByProviderId } from "../../data/appointments/getAppointmentsByProviderId"
 import { getScheduleByProviderId } from "../../data/appointments/getScheduleByProviderId"
 import { scheduleOfTheDay } from "../../services/handleSchedule"
+import { getDaysOffByProviderId } from "../../data/appointments/getDaysOffByProviderId"
 
 
 export const appointmentsDisponibilityBusiness = async (input: appointmentsDisponibilityDTO) : Promise<timeDisponibility[]> => {
@@ -18,6 +19,8 @@ export const appointmentsDisponibilityBusiness = async (input: appointmentsDispo
         const token = getTokenData(input.token)
 
         const user = await getUserById(token.id)
+
+        const day = parseISO(input.day)
 
         if (!user) {
 
@@ -31,19 +34,19 @@ export const appointmentsDisponibilityBusiness = async (input: appointmentsDispo
             throw new Error("Personal não encontrado")
         }
 
-        if (!isValid(parseISO(input.day))) {
+        if (!isValid(day)) {
 
             throw new Error("Data inválida")
         }
 
-        if (!isBefore(subMonths(parseISO(input.day), 2), new Date())) {
+        if (!isBefore(subMonths(day, 2), new Date())) {
 
             return []
         }
 
-        const start = startOfDay(parseISO(input.day))
+        const start = startOfDay(day)
                 
-        const end = endOfDay(parseISO(input.day))
+        const end = endOfDay(day)
 
         const appointments = await getAppointmentsByProviderId(provider.id)
 
@@ -61,7 +64,7 @@ export const appointmentsDisponibilityBusiness = async (input: appointmentsDispo
 
         const schedule = await getScheduleByProviderId(provider.id)
 
-        const hours = scheduleOfTheDay(schedule, parseISO(input.day))
+        const hours = scheduleOfTheDay(schedule, day)
 
         if (!hours) { 
             
@@ -69,6 +72,20 @@ export const appointmentsDisponibilityBusiness = async (input: appointmentsDispo
         }
 
         const acceptedHours = hours.split(" ").map(hour => Number(hour))
+
+        const daysOff = await getDaysOffByProviderId(provider.id)
+
+        for (let dayOff of daysOff) {
+
+            const dayOffStart = parseISO(dayOff.start)
+
+            const dayOffEnd = parseISO(dayOff.end)
+
+            if (dayOffStart <= day && dayOffEnd >= day) {
+
+                return []
+            }
+        }
 
         const disponibility = acceptedHours.map(hour => {
 

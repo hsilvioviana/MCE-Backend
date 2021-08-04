@@ -49,3 +49,12 @@ saturday VARCHAR(64),
 updatedAt DATE NOT NULL,
 FOREIGN KEY (providerId) REFERENCES MC_Users(id)
 );
+
+CREATE TABLE MC_DaysOff (
+id VARCHAR(64) PRIMARY KEY,
+start VARCHAR(64),
+end VARCHAR(64),
+providerId VARCHAR(64),
+createdAt DATE NOT NULL,
+FOREIGN KEY (providerId) REFERENCES MC_Users(id)
+);
