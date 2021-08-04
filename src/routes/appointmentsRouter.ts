@@ -3,6 +3,7 @@ import { appointments } from "../controller/appointments/appointments"
 import { appointmentsDisponibility } from "../controller/appointments/appointmentsDisponibility"
 import { appointmentsOnDay } from "../controller/appointments/appointmentsOnDay"
 import { cancelAppointment } from "../controller/appointments/cancelAppointment"
+import { cancelDaysOff } from "../controller/appointments/cancelDaysOff"
 import { changeSchedule } from "../controller/appointments/changeSchedule"
 import { daysOffList } from "../controller/appointments/daysOffList"
 import { makeAppointment } from "../controller/appointments/makeAppointment"
@@ -18,4 +19,5 @@ appointmentsRouter.get("/:day", appointmentsOnDay)
 appointmentsRouter.post("/make", makeAppointment)
 appointmentsRouter.post("/off", setDaysOff)
 appointmentsRouter.put("/schedule/change", changeSchedule)
+appointmentsRouter.delete("/off/:id", cancelDaysOff)
 appointmentsRouter.delete("/cancel/:id", cancelAppointment)
