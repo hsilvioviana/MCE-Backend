@@ -24,20 +24,22 @@ export const appointmentsOnDayBusiness = async (input: appointmentsOnDayDTO) : P
             throw new Error("Token inválido")
         }
 
-        if (!isValid(parseISO(input.day))) {
+        const day = parseISO(input.day)
+
+        if (!isValid(day) || day.getHours() !== 0 || day.getMinutes() !== 0 || day.getSeconds() !== 0) {
 
             throw new Error("Data inválida")
         }
 
-        const start = startOfDay(parseISO(input.day))
+        const start = startOfDay(day)
                 
-        const end = endOfDay(parseISO(input.day))
+        const end = endOfDay(day)
 
         if (user.role === ROLES.USER) {
 
             const appointments = await getAppointmentsByUserId(token.id)
 
-            const result: any = []
+            const result: userAppointmentDetails[] = []
 
             appointments.forEach(appointment => {
 
@@ -53,9 +55,21 @@ export const appointmentsOnDayBusiness = async (input: appointmentsOnDayDTO) : P
                         provider: {
                             id: appointment.providerId,
                             nickname: appointment.providerNickname,
-                            avatar: appointment.providerAvatar ? String(process.env.URL) + appointment.providerAvatar : ""
+                            avatar: appointment.providerAvatar ? String(process.env.URL) + "/files/photo/download/" + appointment.providerAvatar : ""
                         }
                     })
+                }
+            })
+
+            result.sort((a, b) => {
+
+                if (parseISO(a.date) < parseISO(b.date)) {
+
+                    return -1
+                }
+                else {
+
+                    return 1
                 }
             })
 
@@ -65,7 +79,7 @@ export const appointmentsOnDayBusiness = async (input: appointmentsOnDayDTO) : P
 
             const appointments = await getAppointmentsByProviderId(token.id)
 
-            const result: any = []
+            const result: providerAppointmentDetails[] = []
 
             appointments.forEach(appointment => {
 
@@ -84,6 +98,18 @@ export const appointmentsOnDayBusiness = async (input: appointmentsOnDayDTO) : P
                             avatar: appointment.userAvatar ? String(process.env.URL) + appointment.userAvatar : ""
                         }
                     })
+                }
+            })
+
+            result.sort((a, b) => {
+
+                if (parseISO(a.date) < parseISO(b.date)) {
+
+                    return -1
+                }
+                else {
+
+                    return 1
                 }
             })
 

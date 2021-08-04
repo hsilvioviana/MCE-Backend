@@ -72,10 +72,14 @@ export const appointmentsDisponibilityBusiness = async (input: appointmentsDispo
 
         const disponibility = acceptedHours.map(hour => {
 
-            const value = `${input.day.substring(0, 11)}${hour}:00:00-03:00`
+            let hourFormated
+
+            hour < 10 ? hourFormated = "0" + hour : hourFormated = hour
+
+            const value = `${input.day.substring(0, 11)}${hourFormated}:00:00-03:00`
 
             return {
-                time: `${hour}:00`,
+                time: `${hourFormated}:00`,
                 value,
                 available: !(appointmentsInTheDay.includes(value) || isPast(parseISO(value)) || isBefore(subHours(parseISO(value), 2), new Date()))
             }

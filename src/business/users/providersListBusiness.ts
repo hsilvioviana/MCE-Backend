@@ -24,7 +24,7 @@ export const providersListBusiness = async (input: providersDTO) : Promise<provi
             return {
                 id: provider.id,
                 nickname: provider.nickname,
-                avatar: provider.avatar ? process.env.URL + provider.avatar : ""
+                avatar: provider.avatar ? process.env.URL + "/files/photo/download/" + provider.avatar : ""
             }
         })
     }
