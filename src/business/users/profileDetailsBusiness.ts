@@ -20,7 +20,7 @@ export const profileDetailsBusiness = async (input: profileDTO) : Promise<profil
 
             id: user.id,
             nickname: user.nickname,
-            avatar: user.avatar ? String(process.env.URL) + user.avatar : "",
+            avatar: user.avatar ? String(process.env.URL) + "/files/photo/download/" + user.avatar : "",
             email: user.email,
             phone: user.phone
         }

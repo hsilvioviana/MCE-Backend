@@ -53,9 +53,16 @@ export const makeAppointmentBusiness = async (input: makeAppointmentsDTO) : Prom
             throw new Error("Você não pode agendar uma aula com menos de 2 horas de antecedência")
         }
 
-        if (isBefore(subMonths(time, 2), new Date())) {
+        if (!isBefore(subMonths(time, 2), new Date())) {
 
             throw new Error("Você não pode agendar uma aula com mais de 2 meses de antecedência")
+        }
+
+        const gmt = input.date.substring(19, 25)
+
+        if (gmt !== "-03:00") {
+
+            throw new Error("Apenas o GMT -03:00 é aceito")
         }
 
         const schedule = await getScheduleByProviderId(provider.id)
