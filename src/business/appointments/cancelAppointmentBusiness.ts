@@ -2,9 +2,9 @@ import { getAppointmentById } from "../../data/appointments/getAppointmentById"
 import { getUserById } from "../../data/users/getUserById"
 import { appointmentCancelator, cancelAppointmentDTO } from "../../model/appointments/cancelAppointmentModels"
 import { getTokenData } from "../../services/authenticator"
-import { parseISO, subHours, isBefore, format, } from "date-fns"
+import { parseISO, subHours, isBefore, format, isPast, } from "date-fns"
 import { cancelAppointment } from "../../data/appointments/cancelAppointment"
-import { transporter } from "../../services/transporter"
+import transporter from "../../services/transporter"
 import { pt } from "date-fns/locale"
 
 
@@ -33,6 +33,11 @@ export const cancelAppointmentBusiness = async (input: cancelAppointmentDTO) : P
             throw new Error("Esse agendamento já foi cancelado")
         }
 
+        if (isPast(parseISO(appointment.date))) {
+
+            throw new Error("Você não pode cancelar um agendamento que já passou")
+        }
+
         if (isBefore(subHours(parseISO(appointment.date), 6), new Date())) {
 
             throw new Error("Você não pode cancelar um agendamento com menos de 6 horas de antecedência")
@@ -50,30 +55,44 @@ export const cancelAppointmentBusiness = async (input: cancelAppointmentDTO) : P
             now
         }
 
-        const canceledDate = format(new Date(appointment.date), "'dia' dd 'de' MMMM 'as' H:mm:ss", {locale: pt})
+        const canceledDate = format(new Date(appointment.date), "'dia' dd 'de' MMMM 'as' HH:mm:ss", {locale: pt})
 
         if (user.id === appointmentUser.id) {
 
             await cancelAppointment(appointmentCancelator)
 
-            transporter.sendMail({
+            const formatedTransporter: any = transporter
+
+            formatedTransporter.sendMail({
             
                 from: "<svtestcode@email.com>",
                 to: appointmentProvider.email,
                 subject: "Cancelamento de Aula",
-                text: `O aluno ${appointmentUser.nickname} desmarcou a aula do ${canceledDate}`
+                template: "userCancellation",
+                context: {
+                    provider: appointmentProvider.nickname,
+                    user: appointmentUser.nickname,
+                    date: canceledDate
+                }
             })
         }
         else if (user.id === appointmentProvider.id) {
 
             await cancelAppointment(appointmentCancelator)
 
-            transporter.sendMail({
+            const formatedTransporter: any = transporter
+
+            await formatedTransporter.sendMail({
             
                 from: "<svtestcode@email.com>",
                 to: appointmentUser.email,
                 subject: "Cancelamento de Aula",
-                text: `O personal ${appointmentProvider.nickname} desmarcou a aula do ${canceledDate}`
+                template: "providerCancellation",
+                context: {
+                    provider: appointmentProvider.nickname,
+                    user: appointmentUser.nickname,
+                    date: canceledDate
+                }
             })
         }
         else {
