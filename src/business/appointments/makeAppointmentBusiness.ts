@@ -72,6 +72,11 @@ export const makeAppointmentBusiness = async (input: makeAppointmentsDTO) : Prom
 
         const hours = scheduleOfTheDay(schedule, time)
 
+        if (!hours) { 
+            
+            throw new Error("Horário Indisponível")
+        }
+
         const acceptedHours = hours.split(" ").map(hour => Number(hour))
 
         const daysOff = await getDaysOffByProviderId(provider.id)

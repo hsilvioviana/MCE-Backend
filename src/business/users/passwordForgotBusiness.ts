@@ -4,7 +4,7 @@ import { passwordForgotDTO, passwordResetCodeCreator } from "../../model/users/p
 import { hash } from "../../services/hashManager"
 import { generateId } from "../../services/idGenerator"
 import { resetCode } from "../../services/passwordForgotManager"
-import { transporter } from "../../services/transporter"
+import transporter from "../../services/transporter"
 import { passwordForgotSchema } from "../../validations/users/passwordForgotSchema"
 
 
@@ -31,12 +31,18 @@ export const passwordForgotBusiness  = async (input: passwordForgotDTO) : Promis
 
         await createResetCode(codeCreator)
 
-        transporter.sendMail({
+        const transporterFormated: any = transporter
+
+        await transporterFormated.sendMail({
             
             from: "<svtestcode@email.com>",
             to: input.email,
             subject: "Código de Recuperação de Senha",
-            text: `Código: ${code}`
+            template: "forgotPassword",
+            context: {
+                user: emailUser.nickname,
+                code
+            }
         })
     }
     catch (error) {
