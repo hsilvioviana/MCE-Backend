@@ -10,7 +10,7 @@ export const photoUpload = async (req: Request, res: Response) : Promise<void> =
 
     try {
 
-        const token = req.headers.authorization as string 
+        const token = req.headers.authorization as string
 
         const newAvatarId = generateId() + ".jpg"
 
