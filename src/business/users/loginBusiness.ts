@@ -29,7 +29,8 @@ export const loginBusiness = async (input: loginDTO) : Promise<authentication> =
             user: {
                 id: emailUser.id,
                 nickname: emailUser.nickname,
-                email: emailUser.email
+                email: emailUser.email,
+                avatar : emailUser.avatar ? String(process.env.URL) + "/files/photo/download/" + emailUser.avatar : ""
             },
             token: generateToken({ id: emailUser.id, role: emailUser.role })
         }

@@ -27,7 +27,8 @@ export type userAuthentication = {
 
     id: string
     nickname: string,
-    email: string
+    email: string,
+    avatar: string
 }
  
 export type authentication = {
