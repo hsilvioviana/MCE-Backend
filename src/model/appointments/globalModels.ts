@@ -14,7 +14,8 @@ export type userAppointment = {
     canceledDate: string | null,
     providerId: string,
     providerNickname: string,
-    providerAvatar: string
+    providerAvatar: string,
+    providerPhone: string
 }
 
 export type providerAppointment = {
@@ -25,13 +26,15 @@ export type providerAppointment = {
     userId: string,
     userNickname: string,
     userAvatar: string,
+    userPhone: string
 }
 
 export type appointmentPersonDetails = {
 
     id: string,
     nickname: string,
-    avatar: string
+    avatar: string,
+    phone: string
 }
 
 export type userAppointmentDetails = {
