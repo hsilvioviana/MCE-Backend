@@ -95,7 +95,7 @@ export const appointmentsOnDayBusiness = async (input: appointmentsOnDayDTO) : P
                         user: {
                             id: appointment.userId,
                             nickname: appointment.userNickname,
-                            avatar: appointment.userAvatar ? String(process.env.URL) + appointment.userAvatar : ""
+                            avatar: appointment.userAvatar ? String(process.env.URL) + "/files/photo/download/" + appointment.userAvatar : ""
                         }
                     })
                 }
