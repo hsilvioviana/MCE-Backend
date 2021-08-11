@@ -51,7 +51,8 @@ export const signupBusiness = async (input: signupDTO) : Promise<authentication>
             user: {
                 id: newUser.id,
                 nickname: newUser.nickname,
-                email: newUser.email
+                email: newUser.email,
+                avatar : ""
             },
             token: generateToken({ id: newUser.id, role: newUser.role })
         }

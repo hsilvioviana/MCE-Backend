@@ -38,7 +38,8 @@ export const passwordResetBusiness = async (input: passwordResetDTO) : Promise<a
             user: {
                 id: emailUser.id,
                 nickname: emailUser.nickname,
-                email: emailUser.email
+                email: emailUser.email,
+                avatar : emailUser.avatar ? String(process.env.URL) + "/files/photo/download/" + emailUser.avatar : ""
             },
             token: generateToken({ id: emailUser.id, role: emailUser.role })
         }

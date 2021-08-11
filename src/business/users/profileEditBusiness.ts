@@ -74,7 +74,8 @@ export const profileEditBusiness = async (input: profileEditDTO) : Promise<authe
             user: {
                 id: user.id,
                 nickname: input.nickname,
-                email: input.email
+                email: input.email,
+                avatar : emailUser.avatar ? String(process.env.URL) + "/files/photo/download/" + emailUser.avatar : ""
             },
             token: generateToken({ id: user.id, role: user.role })
         }
