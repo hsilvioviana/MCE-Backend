@@ -22,6 +22,17 @@ export const currentNotificationsBusiness = async (input: currentNotificationsDT
 
         const currentNotifcations = allNotifications.filter(notification => !notification.viewed)
 
+        currentNotifcations.sort((a, b) => {
+
+            if (new Date(a.createdAt) > new Date(b.createdAt)) {
+
+                return 1
+            }
+            else {
+                return -1
+            }
+        })
+        
         return currentNotifcations
     }
     catch (error) {

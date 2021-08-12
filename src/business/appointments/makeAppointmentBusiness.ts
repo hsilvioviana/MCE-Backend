@@ -121,7 +121,7 @@ export const makeAppointmentBusiness = async (input: makeAppointmentsDTO) : Prom
         const createdAt = subHours(new Date(), 3).toISOString().substring(0, 19) + "-03:00"
 
         const content = `Novo agendamento de ${user.nickname} ` + 
-        format(new Date(input.date), "'dia' dd 'de' MMMM 'as' H:mm:ss", {locale: pt})
+        format(new Date(input.date), "'dia' dd 'de' MMMM 'as' HH:mm", {locale: pt})
         
         const notification: notification = {
 
